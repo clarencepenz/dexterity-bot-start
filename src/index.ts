@@ -35,5 +35,5 @@ export const app = async () => {
       return response;
     },
   });
-  console.log(`${server.url}`);
+console.log(`Running on: ${server.hostname} | Port: ${server.port}`);
 };
