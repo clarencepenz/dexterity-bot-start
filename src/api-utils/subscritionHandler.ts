@@ -29,7 +29,13 @@ export const handleNewSubscription = async (
 };
 
 export const handleCancelSubscription = async (
-  AppState: Map<string, any>
+  AppState: Map<string, Trader>
 ) => {
-
+  AppState.delete("copiedTrader");
+  return new Response(
+    JSON.stringify({
+      ok: "Successfully canceled trader subscription",
+    }),
+    { status: 200 }
+  );
 };
