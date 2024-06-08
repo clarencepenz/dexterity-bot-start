@@ -10,30 +10,38 @@ import { tradeHandler } from "./api-utils/tradeHandler";
 const AppState = new Map<string, any>();
 
 export const app = async () => {
+const keypair = Keypair.fromSecretKey(new Uint8Array([...]));
+const wallet = new Wallet(keypair);
+const rpc = `https://devnet-rpc.shyft.to?api_key=`;
 
-  const server = Bun.serve({
-    async fetch(req, server) {
-      const url = new URL(req.url);
-      const { pathname, searchParams } = url;
+const manifest = await dexterity.getManifest(rpc, true, wallet);
 
-      let response: Response | undefined = new Response(
-        JSON.stringify({ status: 200 })
-      );
+const trg = new PublicKey("3fFWfA1LQ6yBJ9v8xwQXF3tjj6qp1715Jt8BxBDJexAi");
+const trader = new dexterity.Trader(manifest, trg);
 
-      switch (pathname) {
-        case "/process-trade":
-          break;
-        case "/new-subscription":
-          break;
-        case "/cancel-subscription":
-          break;
-        default:
-          break;
-      }
+const server = Bun.serve({
+  async fetch(req, server) {
+    const url = new URL(req.url);
+    const { pathname, searchParams } = url;
 
-      if (!response) return new Response(JSON.stringify({ status: 200 }));
-      return response;
-    },
-  });
-console.log(`Running on: ${server.hostname} | Port: ${server.port}`);
+    let response: Response | undefined = new Response(
+      JSON.stringify({ status: 200 })
+    );
+
+    switch (pathname) {
+      case "/process-trade":
+        break;
+      case "/new-subscription":
+        break;
+      case "/cancel-subscription":
+        break;
+      default:
+        break;
+    }
+
+    if (!response) return new Response(JSON.stringify({ status: 200 }));
+    return response;
+  },
+});
+console.log(`${server.url}`);
 };
